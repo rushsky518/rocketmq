@@ -49,8 +49,6 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.remoting.RPCHook;
 
-import static org.apache.rocketmq.client.trace.TraceConstants.TRACE_INSTANCE_NAME;
-
 public class AsyncTraceDispatcher implements TraceDispatcher {
 
     private final static InternalLogger log = ClientLogger.getLog();
@@ -141,7 +139,7 @@ public class AsyncTraceDispatcher implements TraceDispatcher {
     public void start(String nameSrvAddr, AccessChannel accessChannel) throws MQClientException {
         if (isStarted.compareAndSet(false, true)) {
             traceProducer.setNamesrvAddr(nameSrvAddr);
-            traceProducer.setInstanceName(TRACE_INSTANCE_NAME + "_" + nameSrvAddr);
+            traceProducer.changeInstanceNameToPID();
             traceProducer.start();
         }
         this.accessChannel = accessChannel;
